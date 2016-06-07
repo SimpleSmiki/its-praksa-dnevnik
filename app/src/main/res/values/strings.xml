@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">ITSPraksaDnevnik</string>
+
+    <string-array name="meal_types">
+        <item>Breakfast</item>
+        <item>Snack</item>
+        <item>Lunch</item>
+        <item>Dinner</item>
+    </string-array>
+</resources>
