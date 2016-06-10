@@ -16,7 +16,7 @@ public class MealSQLOpenHelper extends SQLiteOpenHelper {
     public static final String DB_NAME = "Meals.db";
     public static final String DB_TABLE_NAME = "meals";
     public static final String DB_CREATE = "CREATE TABLE meals " +
-            "(id integer primary key auto_increment, meal_type text, name text, " +
+            "(id integer primary key autoincrement, meal_type text, name text, " +
             "calorie_number integer, date text, time text)";
 
     public static final String COLUMN_ID = "id";

@@ -16,4 +16,13 @@
         android:layout_centerHorizontal="true"
         android:text="Log new entry" />
 
+    <ListView
+        android:id="@+id/mealList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/log">
+
+    </ListView>
+
 </RelativeLayout>

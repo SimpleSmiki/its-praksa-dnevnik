@@ -6,5 +6,6 @@
         <item>Snack</item>
         <item>Lunch</item>
         <item>Dinner</item>
+        <item>Late night snack</item>
     </string-array>
 </resources>
