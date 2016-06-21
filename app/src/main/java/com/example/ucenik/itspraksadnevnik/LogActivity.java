@@ -62,16 +62,39 @@ public class LogActivity extends AppCompatActivity {
             }
         });
 
+        final int id = getIntent().getIntExtra("id", -1);
+
+        if (id != -1) {
+            populateFields(id);
+            save.setText("Save changes");
+        }
+
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (validate()){
-                    dbHelper.addMeal(meal.getMealType(), meal.getName(), meal.getCalorie(),
-                        meal.getDate(), meal.getTime());
+                    if (id != -1) {
+                        meal.setId(id);
+                        dbHelper.updateMeal(meal);
+                    } else {
+                        dbHelper.addMeal(meal.getMealType(), meal.getName(), meal.getCalorie(),
+                                meal.getDate(), meal.getTime());
+                    }
                     finish();
                 }
             }
         });
+    }
+
+    private void populateFields(int id) {
+        MealSQLOpenHelper dbHelper = new MealSQLOpenHelper(this);
+        Meal meal = dbHelper.getMeal(id);
+
+        name.setText(meal.getName());
+        calorie.setText(String.valueOf(meal.getCalorie()));
+        date.setText(meal.getDate());
+        time.setText(meal.getTime());
+
     }
 
     private boolean validate() {

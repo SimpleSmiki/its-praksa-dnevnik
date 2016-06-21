@@ -1,5 +1,7 @@
 package com.example.ucenik.itspraksadnevnik;
 
+import android.database.Cursor;
+
 import java.io.Serializable;
 
 /**
@@ -23,6 +25,15 @@ public class Meal implements Serializable {
         this.calorie = calorie;
         this.date = date;
         this.time = time;
+    }
+
+    public Meal(Cursor cursor) {
+        id = cursor.getInt(cursor.getColumnIndex(MealSQLOpenHelper.COLUMN_ID));
+        mealType = cursor.getString(cursor.getColumnIndex(MealSQLOpenHelper.COLUMN_TYPE));
+        name = cursor.getString(cursor.getColumnIndex(MealSQLOpenHelper.COLUMN_NAME));
+        calorie = cursor.getInt(cursor.getColumnIndex(MealSQLOpenHelper.COLUMN_CALORIES));
+        date = cursor.getString(cursor.getColumnIndex(MealSQLOpenHelper.COLUMN_DATE));
+        time = cursor.getString(cursor.getColumnIndex(MealSQLOpenHelper.COLUMN_TIME));
     }
 
     public int getId() {

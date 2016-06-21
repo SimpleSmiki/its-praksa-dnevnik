@@ -2,6 +2,7 @@ package com.example.ucenik.itspraksadnevnik;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -59,4 +60,40 @@ public class MealSQLOpenHelper extends SQLiteOpenHelper {
 
     }
 
+    public void updateMeal(Meal meal){
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_TYPE, meal.getMealType());
+        contentValues.put(COLUMN_NAME, meal.getName());
+        contentValues.put(COLUMN_CALORIES, meal.getCalorie());
+        contentValues.put(COLUMN_DATE, meal.getDate());
+        contentValues.put(COLUMN_TIME, meal.getTime());
+
+        String [] args = new String[1];
+        args[0] = String.valueOf(meal.getId());
+        Log.d("UPDATE_MEAL", "id - " + db.update(DB_TABLE_NAME, contentValues, "id = ?" , args));
+
+    }
+
+    public void deleteMeal(int id) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        String [] args = new String[1];
+        args[0] = String.valueOf(id);
+        db.delete(DB_TABLE_NAME, "id = ?", args);
+    }
+
+    public Cursor getMealsCursor() {
+        return getReadableDatabase().rawQuery("SELECT *, id as _id FROM meals", null);
+    }
+
+    public Meal getMeal(int id) {
+        Cursor cursor = getReadableDatabase().rawQuery("SELECT * FROM meals WHERE id = " + id, null);
+        cursor.moveToNext();
+        if (!cursor.isAfterLast()) {
+            return new Meal(cursor);
+        }
+        return null;
+    }
 }
