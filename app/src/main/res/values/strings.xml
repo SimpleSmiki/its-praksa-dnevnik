@@ -8,4 +8,13 @@
         <item>Dinner</item>
         <item>Late night snack</item>
     </string-array>
+
+    <string-array name="meal_types_filter">
+        <item>All</item>
+        <item>Breakfast</item>
+        <item>Snack</item>
+        <item>Lunch</item>
+        <item>Dinner</item>
+        <item>Late night snack</item>
+    </string-array>
 </resources>

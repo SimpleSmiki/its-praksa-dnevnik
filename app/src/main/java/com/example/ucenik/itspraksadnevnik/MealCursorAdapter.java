@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -38,7 +39,33 @@ public class MealCursorAdapter extends CursorAdapter {
 
         TextView tvCalories = (TextView) view.findViewById(R.id.list_item_calories);
         tvCalories.setText(String.valueOf(cursor.getInt(cursor.getColumnIndex(MealSQLOpenHelper.COLUMN_CALORIES))));
-//        Log.d("CURSOR", cursor.getString(cursor.getColumnIndex(MealSQLOpenHelper.COLUMN_TIME)));
+
+        TextView tvDate = (TextView) view.findViewById(R.id.list_item_date);
+        tvDate.setText(cursor.getString(cursor.getColumnIndex(MealSQLOpenHelper.COLUMN_DATE)));
+
+        ImageView image = (ImageView) view.findViewById(R.id.list_item_image);
+
+        String mealType = cursor.getString(cursor.getColumnIndex(MealSQLOpenHelper.COLUMN_TYPE));
+
+
+        switch (mealType) {
+            case "Breakfast":
+                image.setBackgroundResource(R.drawable.breakfast);
+                break;
+            case "Lunch":
+                image.setBackgroundResource(R.drawable.lunch);
+                break;
+            case "Dinner":
+                image.setBackgroundResource(R.drawable.dinner);
+                break;
+            case "Snack":
+            case "Late night snack":
+                image.setBackgroundResource(R.drawable.snack);
+                break;
+            default:
+                image.setBackgroundResource(R.drawable.lunch);
+                break;
+        }
 
     }
 }

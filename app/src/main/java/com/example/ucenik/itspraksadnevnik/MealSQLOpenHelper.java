@@ -55,6 +55,7 @@ public class MealSQLOpenHelper extends SQLiteOpenHelper {
         contentValues.put(COLUMN_CALORIES, calories);
         contentValues.put(COLUMN_DATE, date);
         contentValues.put(COLUMN_TIME, time);
+        Log.d("TAG", date);
 
         Log.d("ADD_MEAL", "id - " + db.insert(DB_TABLE_NAME, null, contentValues));
 
@@ -95,5 +96,20 @@ public class MealSQLOpenHelper extends SQLiteOpenHelper {
             return new Meal(cursor);
         }
         return null;
+    }
+
+    public Cursor getFilteredMeals(String type) {
+        return getReadableDatabase().rawQuery("SELECT *, id as _id FROM meals WHERE " + COLUMN_TYPE + " = \"" + type + "\"", null);
+    }
+
+    public String getCaloriesSum(String type) {
+        String query = "SELECT SUM(calorie_number) FROM meals";
+        if (!type.equals("All")) query = query.concat(" WHERE meal_type = \"" + type + "\"");
+        Cursor cursor = getReadableDatabase().rawQuery(query, null);
+        cursor.moveToFirst();
+        if (!cursor.isAfterLast()){
+            return String.valueOf(cursor.getInt(0));
+        }
+        return "0";
     }
 }

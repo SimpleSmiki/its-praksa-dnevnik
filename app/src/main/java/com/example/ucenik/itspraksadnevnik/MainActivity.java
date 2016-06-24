@@ -11,10 +11,16 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
     Button log;
+
+    Spinner typeFilter;
+
+    TextView sum;
 
     ListView list;
 
@@ -26,13 +32,33 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         log = (Button)findViewById(R.id.log);
+        typeFilter = (Spinner)findViewById(R.id.filterType);
         list = (ListView) findViewById(R.id.mealList);
+        sum = (TextView) findViewById(R.id.calorieSum);
+
+        list.setEmptyView(findViewById(R.id.empty));
 
         log.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, LogActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        typeFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position != 0) {
+                    filterDataByType();
+                } else {
+                    refreshData();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
     }
@@ -83,5 +109,17 @@ public class MainActivity extends AppCompatActivity {
     private void refreshData() {
         MealCursorAdapter adapter = new MealCursorAdapter(this, dbHelper.getMealsCursor());
         list.setAdapter(adapter);
+        calculateSum();
     }
+
+    private void filterDataByType() {
+        MealCursorAdapter adapter = new MealCursorAdapter(this, dbHelper.getFilteredMeals(typeFilter.getSelectedItem().toString()));
+        list.setAdapter(adapter);
+        calculateSum();
+    }
+
+    private void calculateSum() {
+        sum.setText(dbHelper.getCaloriesSum(typeFilter.getSelectedItem().toString()));
+    }
+
 }
